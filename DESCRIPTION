@@ -23,5 +23,6 @@ Imports:
 Suggests:
     intergraph,
     knitr,
-    testthat
+    testthat,
+    igraph
 RoxygenNote: 5.0.1
