@@ -70,7 +70,13 @@ fortify.igraph <- function(model, ..., .convert.igraph = T) {
     }
     
     # edge list
-    edges = network::as.matrix.network.edgelist(x, attrname = weights)
+    if (is.null(weights)) {
+      edges <- igraph::as_edgelist(x, names = F)
+    } else {
+      # See https://stackoverflow.com/questions/16289353/r-igraph-display-edge-weights-in-an-edge-list
+      edges <- cbind(igraph::as_edgelist(x, names = F), 
+                     igraph::edge_attr(weights))
+    }
     
     # edge list (if there are duplicated rows)
     if (nrow(edges[, 1:2]) > nrow(unique(edges[, 1:2]))) {
@@ -95,8 +101,8 @@ fortify.igraph <- function(model, ..., .convert.igraph = T) {
     }
     
     # import edge attributes
-    for (y in network::list.edge.attributes(x)) {
-      edges = cbind(edges, network::get.edge.attribute(x, y))
+    for (y in igraph::list.edge.attributesx)) {
+      edges = cbind(edges, igraph::get.edge.attribute(x, y))
       names(edges)[ncol(edges)] = y
     }
     
