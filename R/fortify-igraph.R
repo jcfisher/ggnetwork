@@ -80,7 +80,7 @@ fortify.igraph <- function(model, ..., .layout = "nicely", .convert.igraph = T) 
     } else {
       # See https://stackoverflow.com/questions/16289353/r-igraph-display-edge-weights-in-an-edge-list
       edges <- cbind(igraph::as_edgelist(x, names = F), 
-                     igraph::edge_attr(weights))
+                     igraph::edge_attr(x, weights))
     }
     
     # edge list (if there are duplicated rows)
