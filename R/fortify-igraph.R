@@ -75,12 +75,12 @@ fortify.igraph <- function(model, ..., .layout = "nicely", .convert.igraph = T) 
     }
     
     # edge list
-    if (is.null(weights)) {
-      edges <- igraph::as_edgelist(x, names = F)
-    } else {
+    if (is.character(weights)) {
       # See https://stackoverflow.com/questions/16289353/r-igraph-display-edge-weights-in-an-edge-list
       edges <- cbind(igraph::as_edgelist(x, names = F), 
                      igraph::edge_attr(x, weights))
+    } else {
+      edges <- igraph::as_edgelist(x, names = F)
     }
     
     # edge list (if there are duplicated rows)
