@@ -7,7 +7,10 @@
 #' with the \code{\link[intergraph]{asNetwork}} function before being passed to
 #' the \code{\link{fortify.network}} function.
 #' @param ... additional parameters for the \code{fortify.network} function; see
-#' \code{\link{fortify.network}}.
+#' \code{\link{fortify.network}}.  If \code{.convert.igraph} is FALSE, these 
+#' will be passed to 
+#' @param .layout character string corresponding to an igraph layout function
+#' (for example, .layout = "with_fr" will call layout_with_fr).
 #' @param .convert.igraph logical value indicating whether an igraph value
 #' should be converted to a statnet network object.  If TRUE, the network will
 #' be converted using \code{\link[intergraph]{asNetwork}}; if FALSE, the layout
@@ -16,7 +19,7 @@
 #' @method fortify igraph
 #' @importFrom utils installed.packages
 #' @export
-fortify.igraph <- function(model, ..., .convert.igraph = T) {
+fortify.igraph <- function(model, ..., .layout = "nicely", .convert.igraph = T) {
 
   # CRAN behavior included by default
   if (.convert.igraph) {
@@ -35,24 +38,25 @@ fortify.igraph <- function(model, ..., .convert.igraph = T) {
     x = model
     
     # node placement
-    if (class(layout) == "matrix" &&
-        nrow(layout) == igraph::gorder(x) &&
-        ncol(layout) == 2) {
-      nodes = layout[, 1:2 ]
+    if (class(.layout) == "matrix" &&
+        nrow(.layout) == igraph::gorder(x) &&
+        ncol(.layout) == 2) {
+      nodes = .layout[, 1:2 ]
     } else {
       
       # Use the default igraph layout if no layout is specified
-      if (is.null(layout)) {
-        layout <- "nicely"
+      if (is.null(.layout)) {
+        .layout <- "nicely"
       } 
       
       # Call igraph layout function
-      layout = paste0("layout_", layout)
+      print(.layout)
+      layout = paste0("layout_", .layout)
       ns <- loadNamespace("igraph")
-      if (!exists(layout, envir=ns, inherits=FALSE)) {
+      if (!exists(.layout, envir=ns, inherits=FALSE)) {
         stop("unsupported layout")
       }
-      nodes = do.call( utils::getFromNamespace(layout, ns), list(x, layout.par = list(...)))
+      nodes = do.call( utils::getFromNamespace(.layout, ns), list(x, layout.par = list(...)))
     }
     
     # store coordinates
