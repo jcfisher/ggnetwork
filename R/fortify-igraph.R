@@ -50,7 +50,6 @@ fortify.igraph <- function(model, ..., .layout = "nicely", .convert.igraph = T) 
       } 
       
       # Call igraph layout function
-      print(.layout)
       current.layout = paste0("layout_", .layout)
       ns <- loadNamespace("igraph")
       if (!exists(.layout, envir=ns, inherits=FALSE)) {
