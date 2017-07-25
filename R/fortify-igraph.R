@@ -19,7 +19,7 @@
 fortify.igraph <- function(model, ..., .convert.igraph = T) {
 
   # CRAN behavior included by default
-  if (convert.igraph) {
+  if (.convert.igraph) {
     if ("intergraph" %in% rownames(utils::installed.packages())) {
   
       fortify.network(intergraph::asNetwork(model), ...)
