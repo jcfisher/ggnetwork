@@ -51,12 +51,12 @@ fortify.igraph <- function(model, ..., .layout = "nicely", .convert.igraph = T) 
       
       # Call igraph layout function
       print(.layout)
-      layout = paste0("layout_", .layout)
+      current.layout = paste0("layout_", .layout)
       ns <- loadNamespace("igraph")
       if (!exists(.layout, envir=ns, inherits=FALSE)) {
         stop("unsupported layout")
       }
-      nodes = do.call( utils::getFromNamespace(.layout, ns), list(x, layout.par = list(...)))
+      nodes = do.call( utils::getFromNamespace(current.layout, ns), list(x, layout.par = list(...)))
     }
     
     # store coordinates
