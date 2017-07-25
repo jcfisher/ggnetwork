@@ -101,7 +101,7 @@ fortify.igraph <- function(model, ..., .convert.igraph = T) {
     }
     
     # import edge attributes
-    for (y in igraph::list.edge.attributesx)) {
+    for (y in igraph::list.edge.attributes(x)) {
       edges = cbind(edges, igraph::get.edge.attribute(x, y))
       names(edges)[ncol(edges)] = y
     }
